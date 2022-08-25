@@ -1,0 +1,367 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = "postgresql://postgres:Comtechie1998@192.168.227.72:5432/cad?schema=public"
+}
+
+model users {
+  id                            Int                           @id @default(autoincrement())
+  email                         String                        @unique @db.VarChar(255)
+  username                      String                        @unique @db.VarChar(255)
+  password                      String                        @db.VarChar(255)
+  token                         String?               
+  name_first                    String                        @db.VarChar(255)
+  name_middle                   String                        @db.VarChar(255)
+  name_last                     String                        @db.VarChar(255)
+  name                          String                        @db.VarChar(255)
+  suffix                        String                        @db.VarChar(255)
+  dob                           String                        @db.VarChar(125)
+  gender                        String                        @db.VarChar(255)
+  profile_picture               String?         
+  barangay                      String                        @db.VarChar(255)
+  city                          String                        @db.VarChar(255)
+  province                      String                        @db.VarChar(255)
+  region                        String?     
+  address                       String?       
+  phone_no                      String                        @db.VarChar(255)
+  home_no                       String                        @db.VarChar(255)
+  remarks                       String? 
+  is_deleted                    Boolean           
+  is_online                     Boolean
+  is_first                      Boolean 
+
+  user_type_id                  Int
+  user_type                     user_types                    @relation(fields: [user_type_id], references: [id])
+  added_by                      Int?           
+  added_by_data                 users?                        @relation("created_users", fields: [added_by], references: [id])   
+  added_date                    DateTime                      @default(now())
+  updated_by                    Int?              
+  updated_by_data               users?                        @relation("updated_users", fields: [updated_by], references: [id])   
+  updated_date                  DateTime                      @updatedAt  
+
+  event_logs                    event_logs[]  
+
+  responder                     responders?     
+  chat_messages                 chat_messages[]      
+
+  created_responders            responders[]                  @relation("created_responders")
+  updated_responders            responders[]                  @relation("updated_responders")
+  created_responder_type        responder_types[]             @relation("created_responder_type")
+  updated_responder_type        responder_types[]             @relation("updated_responder_type")
+  created_department_type       department_types[]            @relation("created_department_type")
+  updated_department_type       department_types[]            @relation("updated_department_type")
+  created_department            departments[]                 @relation("created_department")
+  updated_department            departments[]                 @relation("updated_department")
+  created_events                events[]                      @relation("created_events")
+  updated_events                events[]                      @relation("updated_events")
+  created_event_report_types    event_report_types[]          @relation("created_event_report_types")
+  updated_event_report_types    event_report_types[]          @relation("updated_event_report_types")
+  created_event_priorities      event_priorities[]            @relation("created_event_prioritys")
+  updated_event_priorities      event_priorities[]            @relation("updated_event_prioritys")
+  created_event_types           event_types[]                 @relation("created_event_types")
+  updated_event_types           event_types[]                 @relation("updated_event_types")
+  created_users                 users[]                       @relation("created_users")
+  updated_users                 users[]                       @relation("updated_users")
+  created_event_incident_types  event_incident_types[]        @relation("created_event_incident_types")
+  updated_event_incident_types  event_incident_types[]        @relation("updated_event_incident_types")
+  created_notification          notification[]                @relation("created_notification")
+  updated_notification          notification[]                @relation("updated_notification")
+
+  @@index([username])
+}     
+
+model user_types {
+  id                            Int                           @id @default(autoincrement())
+  name                          String                        @unique @db.VarChar(255)
+  privileges                    Int[]
+  user                          users[]       
+}
+
+model user_privileges {
+  id                            Int                           @id @default(autoincrement())
+  name                          String                        @unique @db.VarChar(255)
+  module                        String?
+}
+
+model user_logs {
+  id                            Int                           @id @default(autoincrement())
+  ip_address                    String?
+  device                        String?
+  user_agent                    String?
+  log_date                      DateTime                      @default(now())
+  user_id                       Int?
+  location                      String?
+}
+
+model chat_messages {      
+  id                            Int                           @id @default(autoincrement())
+  message                       String?                   
+  message_type                  String?
+ 
+  event_id                      Int?                          
+  event                         events?                       @relation(fields: [event_id], references: [id])
+
+  user_id                       Int           
+  user                          users                         @relation(fields: [user_id], references: [id])
+
+  added_date                    DateTime                      @default(now())
+}         
+
+model responders {      
+  id                            Int                           @id @default(autoincrement())
+  plate_no                      String                        @db.VarChar(255)
+  current_ticket                String                        @db.VarChar(255)
+  coordinates                   String?                   
+  location_name                 String?                   
+  status                        String                        @db.VarChar(255)
+  image                         String[]
+
+  responder_type                Int           
+  responder_type_data           responder_types               @relation(fields: [responder_type], references: [id]) 
+  user_id                       Int                           @unique
+  user                          users                         @relation(fields: [user_id], references: [id])
+  department_id                 Int?               
+  department                    departments?                   @relation(fields: [department_id], references: [id])
+
+  responder_logs                responder_logs[]
+  responder_reports             responder_reports[]
+  events                        events[]                                      
+
+  added_by                      Int               
+  added_by_data                 users                         @relation("created_responders", fields: [added_by], references: [id])   
+  added_date                    DateTime                      @default(now())
+  updated_by                    Int?              
+  updated_by_data               users?                        @relation("updated_responders", fields: [updated_by], references: [id])   
+  updated_date                  DateTime                      @updatedAt
+  is_deleted                    Boolean?                      @default(false)
+}     
+
+model responder_types {         
+  id                            Int                           @id @default(autoincrement())
+  name                          String                        
+  logo                          String?       
+  image                         String[]          
+  type                          String?
+
+  responders                    responders[]
+  events                        events[]                      @relation("responder_type")      
+  event_types                   event_types[]                     
+
+  deletable                     Boolean                       @default(true)
+  added_by                      Int           
+  added_by_data                 users                         @relation("created_responder_type", fields: [added_by], references: [id])   
+  added_date                    DateTime                      @default(now())
+  updated_by                    Int?              
+  updated_by_data               users?                        @relation("updated_responder_type", fields: [updated_by], references: [id])   
+  updated_date                  DateTime                      @updatedAt
+  is_deleted                    Boolean?                      @default(false)
+}     
+
+model responder_logs {      
+  id                            Int                           @id @default(autoincrement())
+  status                        String                        @db.VarChar(255)
+  coordinates                   String?               
+  time_stamp                    DateTime                      @default(now())
+
+  event_id                      Int?    
+  event                         events?                       @relation(fields: [event_id], references: [id])  
+  responder_id                  Int     
+  responder                     responders                    @relation(fields: [responder_id], references: [id])
+}
+
+model responder_reports {
+  id                            Int                           @id @default(autoincrement())
+  status                        String                        @db.VarChar(125)
+  date_dispatched               DateTime                      @default(now())
+  date_arrived                  DateTime?                      
+  date_finished                 DateTime?                      
+
+  responder_id                  Int
+  responder                     responders                    @relation(fields: [responder_id], references: [id])
+  event_id                      Int?    
+  event                         events?                       @relation(fields: [event_id], references: [id])
+}
+
+model department_types {     
+  id                            Int                           @id @default(autoincrement())
+  name                          String                        
+  logo                          String                        @db.VarChar(1)
+  departments                   departments[]         
+  
+  deletable                     Boolean                      @default(true)
+  added_by                      Int               
+  added_by_data                 users                         @relation("created_department_type", fields: [added_by], references: [id])   
+  added_date                    DateTime                      @default(now())
+  updated_by                    Int?              
+  updated_by_data               users?                        @relation("updated_department_type", fields: [updated_by], references: [id])   
+  updated_date                  DateTime                      @updatedAt
+  is_deleted                    Boolean?                      @default(false)
+}             
+
+model departments {            
+  id                            Int                           @id @default(autoincrement())
+  name                          String                        @db.VarChar(255)
+  address                       String?           
+  coordinates                   String?           
+  images                        String[]              
+
+  responders                    responders[]              
+  department_type_id            Int           
+  department_type               department_types              @relation(fields: [department_type_id], references: [id])
+  deletable                     Boolean                       @default(true)
+  added_by                      Int           
+  added_by_data                 users                         @relation("created_department", fields: [added_by], references: [id])   
+  added_date                    DateTime                      @default(now())
+  updated_by                    Int?          
+  updated_by_data               users?                        @relation("updated_department", fields: [updated_by], references: [id])   
+  updated_date                  DateTime                      @updatedAt
+  is_deleted                    Boolean?                      @default(false)
+}     
+
+model events {     
+  id                            Int                           @id @default(autoincrement())
+  reported_by_name_first        String?         
+  reported_by_name_middle       String?         
+  reported_by_name_last         String?         
+  reported_by_name              String?         
+  reported_by_contact           String?         
+  reported_by_address           String?         
+
+  address                       String?                        @db.VarChar(255)
+  coordinates                   String?         
+  remarks                       String?         
+  ticket                        String                        @unique @db.VarChar(255)
+  status                        String                        @db.VarChar(50) @default("in queue")
+  images                        String[]
+
+  report_type                   Int?
+  report_type_data              event_report_types?            @relation(fields: [report_type], references: [id])
+  event_type                    Int?   
+  event_type_data               event_types?                   @relation(fields: [event_type], references: [id])
+  priority_level                Int?   
+  priority_level_data           event_priorities?              @relation(fields: [priority_level], references: [id])
+  
+  responder_type                responder_types[]              @relation("responder_type")
+  incident_type                 event_incident_types[]         
+  assigned_responder            responders[]                   
+
+  parent_id                     Int?  
+  parent_event                  events?                       @relation("LinkedTickets", fields: [parent_id], references: [id])
+  child_events                  events[]                      @relation("LinkedTickets")
+
+  responder_logs                responder_logs[]
+  event_logs                    event_logs[]
+  responder_reports             responder_reports[]
+  messages                      chat_messages[]  
+
+  added_by                      Int       
+  added_by_data                 users                         @relation("created_events", fields: [added_by], references: [id])   
+  added_date                    DateTime                      @default(now())
+  updated_by                    Int?              
+  updated_by_data               users?                        @relation("updated_events", fields: [updated_by], references: [id])   
+  updated_date                  DateTime                      @updatedAt
+  is_deleted                    Boolean?                      @default(false)
+
+  @@index([priority_level(sort: Desc)])
+  @@index([status(sort: Desc)])
+  @@index([report_type,parent_id, status(sort: Desc)])
+}
+
+model event_logs {
+  id                            Int                           @id @default(autoincrement())
+  ticket                        String?
+  description                   String?
+  status                        String?
+  
+  user_id                       Int?
+  user                          users?                        @relation(fields: [user_id], references: [id])
+  event_id                      Int?
+  event                         events?                       @relation(fields: [event_id], references: [id])
+
+  added_date                    DateTime                      @default(now())
+}
+
+model event_types {
+  id                            Int                           @id @default(autoincrement())
+  name                          String                        
+  logo                          String?         
+
+  default_responders            responder_types[]                      
+  report_type                   Int
+  report_type_data              event_report_types            @relation(fields: [report_type], references: [id])
+  event                         events[]
+
+  deletable                     Boolean                      @default(true)
+  added_by                      Int     
+  added_by_data                 users                         @relation("created_event_types", fields: [added_by], references: [id])   
+  added_date                    DateTime                      @default(now())
+  updated_by                    Int?              
+  updated_by_data               users?                        @relation("updated_event_types", fields: [updated_by], references: [id])   
+  updated_date                  DateTime                      @updatedAt
+  is_deleted                    Boolean?                      @default(false)
+}
+
+model event_report_types {
+  id                            Int                           @id @default(autoincrement())
+  name                          String                        
+  event                         events[]
+  event_types                   event_types[]
+  
+  deletable                     Boolean                      @default(true)
+  added_by                      Int     
+  added_by_data                 users                         @relation("created_event_report_types", fields: [added_by], references: [id])   
+  added_date                    DateTime                      @default(now())
+  updated_by                    Int?              
+  updated_by_data               users?                        @relation("updated_event_report_types", fields: [updated_by], references: [id])   
+  updated_date                  DateTime                      @updatedAt
+  is_deleted                    Boolean?                      @default(false)
+}
+
+model event_priorities {
+  id                            Int                           @id @default(autoincrement())
+  name                          String                        
+  color                         String                        @default("#ffffff")
+  is_default                    Boolean                       @default(false)
+  event                         events[]
+
+  deletable                     Boolean                       @default(true)
+  added_by                      Int     
+  added_by_data                 users                         @relation("created_event_prioritys", fields: [added_by], references: [id])   
+  added_date                    DateTime                      @default(now())
+  updated_by                    Int?              
+  updated_by_data               users?                        @relation("updated_event_prioritys", fields: [updated_by], references: [id])   
+  updated_date                  DateTime                      @updatedAt
+  is_deleted                    Boolean?                      @default(false)
+}
+
+model event_incident_types {
+  id                            Int                           @id @default(autoincrement())
+  name                          String                                            
+  event                         events[]
+
+  deletable                     Boolean                       @default(true)
+  added_by                      Int
+  added_by_data                 users                         @relation("created_event_incident_types", fields: [added_by], references: [id])   
+  added_date                    DateTime                      @default(now())
+  updated_by                    Int?              
+  updated_by_data               users?                        @relation("updated_event_incident_types", fields: [updated_by], references: [id])   
+  updated_date                  DateTime                      @updatedAt
+  is_deleted                    Boolean?                      @default(false)
+}
+
+model notification {
+  id                            Int                           @id @default(autoincrement())
+  message                       String?
+  send_to                       Int?
+
+  added_by                      Int
+  added_by_data                 users                         @relation("created_notification", fields: [added_by], references: [id])   
+  added_date                    DateTime                      @default(now())
+  updated_by                    Int?              
+  updated_by_data               users?                        @relation("updated_notification", fields: [updated_by], references: [id])   
+  updated_date                  DateTime                      @updatedAt
+  is_deleted                    Boolean?                      @default(false)
+}

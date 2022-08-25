@@ -1,0 +1,134 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  /* font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+		Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif; */
+  font-family: "Lato";
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.login,
+.login:focus {
+  border: 1px solid rgb(31 41 55);
+  -webkit-text-fill-color: white;
+  -webkit-box-shadow: 0 0 0px 1000px rgb(31 41 55) inset;
+  box-shadow: 0 0 0px 1000px rgb(31 41 55) inset;
+  transition: rgb(31 41 55) 5000s ease-in-out 0s;
+  color: white;
+}
+
+::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
+
+input[type="file"] {
+  display: none;
+}
+
+@font-face {
+  font-family: "Incidents";
+  src: url("/assets/fonts/ERS_v2_Incidents_txt.ttf");
+}
+
+@font-face {
+  font-family: "Operation";
+  src: url("/assets/fonts/ERS_v2_Operations_S1_txt.ttf");
+}
+
+.my_polyline {
+  stroke: rgb(112, 247, 112);
+  fill: none;
+  stroke-dasharray: 10, 10;
+  stroke-width: 5;
+  outline: none;
+  border-color: #9ecaed !important;
+  box-shadow: 0 0 10px #9ecaed !important;
+}
+
+.glow {
+  color: #fff;
+  text-align: center;
+  -webkit-animation: glow 1s ease-in-out infinite alternate;
+  -moz-animation: glow 1s ease-in-out infinite alternate;
+  animation: glow 1s ease-in-out infinite alternate;
+}
+
+.glow-orange {
+  color: #fff;
+  text-align: center;
+  -webkit-animation: glow-orange 1s ease-in-out infinite alternate;
+  -moz-animation: glow-orange 1s ease-in-out infinite alternate;
+  animation: glow-orange 1s ease-in-out infinite alternate;
+}
+
+.glow-yellow {
+  color: #fff;
+  text-align: center;
+  -webkit-animation: glow-yellow 1s ease-in-out infinite alternate;
+  -moz-animation: glow-yellow 1s ease-in-out infinite alternate;
+  animation: glow-yellow 1s ease-in-out infinite alternate;
+}
+
+.glow-red {
+  color: #fff;
+  text-align: center;
+  -webkit-animation: glow-red 1s ease-in-out infinite alternate;
+  -moz-animation: glow-red 1s ease-in-out infinite alternate;
+  animation: glow-red 1s ease-in-out infinite alternate;
+}
+
+@-webkit-keyframes glow {
+  from {
+    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073,
+      0 0 70px #e60073;
+  }
+  to {
+    text-shadow: 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #ff4da6, 0 0 50px #ff4da6, 0 0 60px #ff4da6, 0 0 70px #ff4da6,
+      0 0 80px #ff4da6;
+  }
+}
+
+@-webkit-keyframes glow-yellow {
+  from {
+    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #eef10e, 0 0 40px #ebee26, 0 0 50px #e6d700, 0 0 60px #fbff04,
+      0 0 70px #e7ff0d;
+  }
+  to {
+    text-shadow: 0 0 20px #fff, 0 0 30px #ebe86b, 0 0 40px #faf062, 0 0 50px #ddf865, 0 0 60px #cacc54, 0 0 70px #f5e279,
+      0 0 80px #f4f775;
+  }
+}
+
+@-webkit-keyframes glow-orange {
+  from {
+    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e66f00, 0 0 40px #e66f00, 0 0 50px #e66f00, 0 0 60px #e66f00,
+      0 0 70px #e66f00;
+  }
+  to {
+    text-shadow: 0 0 20px #fff, 0 0 30px #fde50f, 0 0 40px #fde50f, 0 0 50px #fde50f, 0 0 60px #fde50f, 0 0 70px #fde50f,
+      0 0 80px #fde50f;
+  }
+}
+@-webkit-keyframes glow-red {
+  from {
+    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #ff0000, 0 0 40px #ff0000, 0 0 50px #ff0000, 0 0 60px #ff0000,
+      0 0 70px #ff0000;
+  }
+  to {
+    text-shadow: 0 0 20px #fff, 0 0 30px #f85b00, 0 0 40px #f85b00, 0 0 50px #f85b00, 0 0 60px #f85b00, 0 0 70px #f85b00,
+      0 0 80px #f85b00;
+  }
+}
