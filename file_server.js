@@ -63,6 +63,7 @@ const processData = async (xml) => {
   try {
     jsonParsed = xmlParser(xml)
   } catch (error) {
+    console.log("Error1")
     return null
   }
   let InOut
@@ -76,11 +77,12 @@ const processData = async (xml) => {
       InOut = "out"
     }
   } catch (error) {
+    console.log("Error2")
     return null
   }
 
   if (!MatchedPerson.Person_ID) {
-    console.log("Error2")
+    console.log("Person_ID, Undifiened")
     fs = require("fs")
     fs.writeFile("error2.txt", JSON.stringify(jsonParsed))
     return null
