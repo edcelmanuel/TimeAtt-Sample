@@ -12,7 +12,7 @@ const nextConfig = {
         ? "ws://192.168.227.62:2020"
         : process.env.NEXT_PUBLIC_ENV_TYPE === "qa"
         ? "ws://192.168.227.62:2020"
-        : "ws://responde.ebizolution.com:2020",
+        : "ws://192.168.227.62:2020",
   },
 }
 
