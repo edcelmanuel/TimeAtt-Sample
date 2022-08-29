@@ -75,7 +75,6 @@ const processData = async (xml) => {
       MatchedPerson = jsonParsed.Alarm.MatchedPerson[0]
       InOut = "out"
     }
-    console.log(MatchedPerson.Person_ID)
   } catch (error) {
     return null
   }
@@ -85,6 +84,8 @@ const processData = async (xml) => {
     fs = require("fs")
     fs.writeFile("error2.txt", JSON.stringify(jsonParsed))
     return null
+  } else {
+    console.log("ID: ", MatchedPerson.Person_ID)
   }
 
   const user = await prisma.users.findUnique({
