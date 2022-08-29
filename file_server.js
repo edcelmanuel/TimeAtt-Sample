@@ -59,7 +59,7 @@ io.on("connection", (socket) => {
 })
 
 const processData = async (xml) => {
-  // console.log(xml)
+  console.log(xml)
   let jsonParsed
   try {
     jsonParsed = xmlParser(xml)
@@ -72,12 +72,11 @@ const processData = async (xml) => {
   try {
     console.log("Camera = ", jsonParsed.Alarm.AlarmCamera.CameraID)
     MatchedPerson = jsonParsed.Alarm.MatchedPerson
-    InOut = "in"
-    // if (jsonParsed.Alarm.AlarmCamera.CameraID === 0) {
-    // } else {
-    //   MatchedPerson = jsonParsed.Alarm.MatchedPerson[0]
-    //   InOut = "out"
-    // }
+    if (jsonParsed.Alarm.AlarmCamera.CameraID === 0) {
+      InOut = "in"
+    } else {
+      InOut = "out"
+    }
   } catch (error) {
     console.log("Error2")
     return null
