@@ -3,6 +3,7 @@ import { useRouter } from "next/router"
 
 import "../styles/globals.css"
 import "react-toastify/dist/ReactToastify.css"
+import "react-calendar-heatmap/dist/styles.css"
 
 import { QueryClient, QueryClientProvider } from "react-query"
 

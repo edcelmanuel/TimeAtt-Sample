@@ -9,6 +9,11 @@ const useStore = create((set) => ({
 const useStoreUsers = create((set) => ({
   users: [],
   setUsers: (payload) => set({ users: payload }),
+  addUser: (payload) => set((state) => ({ users: state.users.apped(payload) })),
+  selectedUser: {},
+  setSelectedUser: (payload) => set({ selectedUser: payload }),
+  isIn: true,
+  setIsIn: (payload) => set({ isIn: payload }),
 }))
 
 export { useStoreUsers }

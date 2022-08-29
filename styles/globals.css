@@ -132,3 +132,28 @@ input[type="file"] {
       0 0 80px #f85b00;
   }
 }
+
+.react-calendar-heatmap .color-scale-1 {
+  fill: #d6e685;
+}
+.react-calendar-heatmap .color-scale-2 {
+  fill: #8cc665;
+}
+.react-calendar-heatmap .color-scale-3 {
+  fill: #44a340;
+}
+.react-calendar-heatmap .color-scale-4 {
+  fill: #1e6823;
+}
+
+.react-calendar-heatmap .color-scale-odd {
+  fill: #ecfd00;
+}
+
+.react-calendar-heatmap .color-scale-add {
+  fill: #00fd2a;
+}
+
+.react-calendar-heatmap .color-empty {
+  fill: #e2260d !important;
+}

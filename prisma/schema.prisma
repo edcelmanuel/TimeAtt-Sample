@@ -10,15 +10,18 @@ datasource db {
 model Users {
     id                            Int                           @id @default(autoincrement()) 
     name                          String                        @unique @db.VarChar(255)
-    password                      String                        @unique @db.VarChar(255)
     profile_picture               String?
+    night_diff                    Boolean                       @default(false)
+    person_id                     Int                           @unique
 
     Attendance                    TimeInOut[]
 }
 
 model TimeInOut {
     id                            Int                           @id @default(autoincrement())
-    UserId                        Int
+    UserId                        Int                       
     User                          Users                         @relation(fields: [UserId], references: [id])
-    timestamp                     DateTime                      @default(now())
+    image_url                     String?
+    timestamp                     DateTime                      @default(now()) @db.Timestamptz()
+    status                        String?                       @db.VarChar(55)
 }

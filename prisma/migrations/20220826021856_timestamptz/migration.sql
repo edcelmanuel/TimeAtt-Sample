@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "TimeInOut" ALTER COLUMN "timestamp" SET DATA TYPE TIMESTAMPTZ;

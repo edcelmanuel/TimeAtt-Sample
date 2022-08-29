@@ -2,7 +2,11 @@ import prisma from "@lib/prisma"
 
 const handler = async (req, res) => {
   const get = async () => {
-    const users = await prisma.timeInOut.findMany()
+    const users = await prisma.timeInOut.findMany({
+      include: {
+        User: true,
+      },
+    })
     res.status(200).json(users)
   }
 
@@ -16,7 +20,7 @@ const handler = async (req, res) => {
     })
 
     if (user) {
-      await prisma.timeInOut
+      const newTimeIn = await prisma.timeInOut
         .create({
           data: { UserId: user.id },
           include: {
@@ -25,9 +29,6 @@ const handler = async (req, res) => {
         })
         .then((user) => {
           return res.status(200).json({ status: "success", user })
-        })
-        .catch((error) => {
-          return res.status(404).json({ status: "error", error })
         })
     } else {
       return res.status(200).json({ status: "not found" })

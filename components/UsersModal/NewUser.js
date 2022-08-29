@@ -2,10 +2,11 @@ import TextInput from "@components/TextInput"
 import React, { useRef, useState } from "react"
 import { toast } from "react-toastify"
 import axios from "axios"
+import { faker } from "@faker-js/faker"
 
 export default function NewUser({ setIsVisible }) {
   const [submitData, setSubmitData] = useState({
-    // name: "",
+    name: faker.name.fullName(),
     // password: "",
   })
   const [img, setImg] = useState("")
@@ -18,14 +19,12 @@ export default function NewUser({ setIsVisible }) {
   }
 
   const handleOnChaneData = (value, key) => {
-    setSubmitData((state) => {
-      state[key] = value
-      return state
-    })
+    const newSubmitData = { ...submitData }
+    newSubmitData[key] = value
+    setSubmitData(newSubmitData)
   }
 
   async function uploadFile(files) {
-    // console.log(files)
     var formData = new FormData()
 
     for (let index = 0; index < files.length; index++) {
@@ -50,13 +49,14 @@ export default function NewUser({ setIsVisible }) {
       hasError = true
     }
     if (!submitData.name) {
-      toast.info("Must Name")
+      toast.info("Must Have Name")
       hasError = true
     }
-    if (!submitData.password) {
-      toast.info("Must Pass Code")
+    if (!submitData.person_id) {
+      toast.info("Must Have Person Id")
       hasError = true
     }
+
     if (hasError === true) return null
 
     const uploaded = await uploadFile(fileRef.current.files)
@@ -65,20 +65,24 @@ export default function NewUser({ setIsVisible }) {
     if (response.data.status === "success") {
       toast.success("Successfully Added")
       setIsVisible(false)
+    } else {
+      toast.error(response.data.error)
     }
   }
 
   return (
     <div className="flex flex-col">
       <div className="flex mt-6">
-        <div className="avatar">
-          <div
-            className="w-24 rounded-full cursor-pointer ring ring-primary ring-offset-base-100 ring-offset-2"
-            onClick={() => fileRef.current.click()}
-          >
-            <img src={img ? img : "/defaultPicture.png"} />
+        <div className="flex items-center justify-center">
+          <div className="avatar">
+            <div
+              className="w-24 rounded-full cursor-pointer ring ring-primary ring-offset-base-100 ring-offset-2"
+              onClick={() => fileRef.current.click()}
+            >
+              <img src={img ? img : "/defaultPicture.png"} />
+            </div>
+            <input type="file" ref={fileRef} accept=".jpg,.jpeg,.png" onChange={onImageChange} />
           </div>
-          <input type="file" ref={fileRef} accept=".jpg,.jpeg,.png" onChange={onImageChange} />
         </div>
 
         <div className="flex flex-col w-full ml-4 space-y-4">
@@ -90,10 +94,10 @@ export default function NewUser({ setIsVisible }) {
           />
           <TextInput
             size={1}
-            placeholder="Pass Code"
-            setValue={(e) => handleOnChaneData(e, "password")}
-            value={submitData?.password}
-            type="password"
+            placeholder="Face ID"
+            setValue={(e) => handleOnChaneData(parseInt(e), "person_id")}
+            value={submitData?.person_id}
+            type="number"
           />
         </div>
       </div>

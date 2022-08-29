@@ -13,7 +13,7 @@ export default function Modal({ cancelButton, title, isVisible, setIsVisible, ch
   return (
     <>
       <Transition appear show={isVisible} as={Fragment}>
-        <Dialog as="div" className="relative z-[100]" onClose={closeModal}>
+        <Dialog as="div" className="relative z-[100000]" onClose={closeModal}>
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
