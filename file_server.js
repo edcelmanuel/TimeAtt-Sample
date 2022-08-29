@@ -71,13 +71,13 @@ const processData = async (xml) => {
   let MatchedPerson
   try {
     console.log("Camera = ", jsonParsed.Alarm.AlarmCamera.CameraID)
-    if (jsonParsed.Alarm.AlarmCamera.CameraID === 0) {
-      MatchedPerson = jsonParsed.Alarm.MatchedPerson
-      InOut = "in"
-    } else {
-      MatchedPerson = jsonParsed.Alarm.MatchedPerson[0]
-      InOut = "out"
-    }
+    MatchedPerson = jsonParsed.Alarm.MatchedPerson
+    InOut = "in"
+    // if (jsonParsed.Alarm.AlarmCamera.CameraID === 0) {
+    // } else {
+    //   MatchedPerson = jsonParsed.Alarm.MatchedPerson[0]
+    //   InOut = "out"
+    // }
   } catch (error) {
     console.log("Error2")
     return null
@@ -111,7 +111,7 @@ const processData = async (xml) => {
       .create({
         data: {
           UserId: user.id,
-          image_url: jsonParsed.Alarm.ImageUrl,
+          image_url: jsonParsed.Alarm?.ImageUrl ? jsonParsed.Alarm?.ImageUrl : MatchedPerson.PersonImageUrl,
           status: InOut,
         },
         include: {
