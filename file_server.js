@@ -77,9 +77,6 @@ const processData = async (xml) => {
     }
     console.log(MatchedPerson.Person_ID)
   } catch (error) {
-    console.log("Error1")
-    fs = require("fs")
-    fs.writeFile("error1.txt", JSON.stringify(jsonParsed))
     return null
   }
 
