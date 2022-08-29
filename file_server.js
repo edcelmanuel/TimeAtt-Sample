@@ -69,6 +69,7 @@ const processData = async (xml) => {
   let InOut
   let MatchedPerson
   try {
+    console.log("Camera = ", jsonParsed.Alarm.AlarmCamera.CameraID)
     if (jsonParsed.Alarm.AlarmCamera.CameraID === 0) {
       MatchedPerson = jsonParsed.Alarm.MatchedPerson
       InOut = "in"
@@ -81,7 +82,7 @@ const processData = async (xml) => {
     return null
   }
 
-  if (!MatchedPerson.Person_ID) {
+  if (!MatchedPerson?.Person_ID) {
     console.log("Person_ID, Undifiened")
     fs = require("fs")
     fs.writeFile("error2.txt", JSON.stringify(jsonParsed))
