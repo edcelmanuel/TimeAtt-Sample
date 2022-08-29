@@ -59,6 +59,7 @@ io.on("connection", (socket) => {
 })
 
 const processData = async (xml) => {
+  // console.log(xml)
   let jsonParsed
   try {
     jsonParsed = xmlParser(xml)
@@ -85,7 +86,10 @@ const processData = async (xml) => {
   if (!MatchedPerson?.Person_ID) {
     console.log("Person_ID, Undifiened")
     fs = require("fs")
-    fs.writeFile("error2.txt", JSON.stringify(jsonParsed))
+    fs.writeFile("error2.txt", JSON.stringify(jsonParsed), function (err) {
+      if (err) return console.log(err)
+      console.log("Hello World > helloworld.txt")
+    })
     return null
   } else {
     console.log("ID: ", MatchedPerson.Person_ID)
