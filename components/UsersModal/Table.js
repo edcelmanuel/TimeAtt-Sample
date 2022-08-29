@@ -93,7 +93,10 @@ const TableRow = ({ user, setIsVisible }) => {
         <div className="flex items-center space-x-3">
           <div className="avatar">
             <div className="w-12 h-12 mask mask-squircle">
-              <img src={`http://localhost:2020/uploads/${user.profile_picture}`} alt="Avatar Tailwind CSS Component" />
+              <img
+                src={`http://192.168.227.62:2020/uploads/${user.profile_picture}`}
+                alt="Avatar Tailwind CSS Component"
+              />
             </div>
           </div>
           <div>
