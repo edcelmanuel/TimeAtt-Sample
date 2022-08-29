@@ -83,16 +83,21 @@ const processData = async (xml) => {
     return null
   }
 
-  if (!MatchedPerson?.Person_ID) {
-    console.log("Person_ID, Undifiened")
-    fs = require("fs")
-    fs.writeFile("error2.txt", JSON.stringify(jsonParsed), function (err) {
-      if (err) return console.log(err)
-      console.log("Hello World > helloworld.txt")
-    })
+  try {
+    if (!MatchedPerson?.Person_ID) {
+      console.log("Person_ID, Undifiened")
+      fs = require("fs")
+      fs.writeFile("error2.txt", JSON.stringify(jsonParsed), function (err) {
+        if (err) return console.log(err)
+        console.log("Hello World > helloworld.txt")
+      })
+      return null
+    } else {
+      console.log("ID: ", MatchedPerson.Person_ID)
+    }
+  } catch (error) {
+    console.log("Error3")
     return null
-  } else {
-    console.log("ID: ", MatchedPerson.Person_ID)
   }
 
   const user = await prisma.users.findUnique({
