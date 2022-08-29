@@ -96,7 +96,7 @@ const processData = async (xml) => {
     },
   })
 
-  if (user) {
+  if (user?.id) {
     const newTimeIn = await prisma.timeInOut
       .create({
         data: {
