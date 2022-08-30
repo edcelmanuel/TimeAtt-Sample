@@ -127,7 +127,7 @@ function TableTime() {
                 </g>
               )}
               classForValue={(value) => {
-                if (value.count === 0) {
+                if (!value?.count) {
                   return "color-empty"
                 }
                 if (value.count % 2 === 1) {
